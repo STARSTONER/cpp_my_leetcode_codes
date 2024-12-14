@@ -1,1 +1,13 @@
-//
+jai ganesha,help me//
+
+//approach 1:
+/*core logic: upon close observation we can see that the number of continuous subarrays we get from a valid subarry is the lenght of the subarray itself, i.e suppose {2,1,2}
+lets start with frist element 2 it is a valid element as 2-2=0 (0<=0<=2), so now the length of the total subarray is 1(as we added 2 into it) now lets see about the next element(2nd) i.e 1 |2-1|=|1-2|=1(0<=1<=2) hence a valid now the total number of continuous subarrays will become 1+2=3(1 from the first element and 2 from adding the next element(1)which gives us the subarrays{(2),(1),(1,2)}, total=3 and then when we see the third element we find out that it is also valid and can be added to the subarray which gves us 3+3=6 subarrys(continuous arrays). therefore we can say that the lenght of list of all the continuous subarrys possible by a valid number can be got just by the lenght of the valid subarray itself.*/
+
+// now lets look on which data structure to take for the problem: 
+/* in the problem we need to find in every slide if the window is valid or not i.e continuous or not , that can be found out easily by taking the main and max of the window and checking if their absolute sum is <=2 or not. so we can take an ordered set which stores the elements in increaseing order, but we will struck if there are duplicate elements as ordered set or set data structure does not take duplicate or doesnt even store the frequency of an element and we even have to iterate through all the element of the window to find out min,max when the window shrinks. So we need to think of a data structure which can store elements in sorted order by default and also store their frequencies if there are duplicates, hence the obvious choice is ordered map, which can store the values in sorted order and their frequencies mapping the elements.*/
+
+
+
+
+
