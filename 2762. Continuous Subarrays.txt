@@ -1,4 +1,4 @@
-jai ganesha,help me//
+
 
 //approach 1:
 /*core logic: upon close observation we can see that the number of continuous subarrays we get from a valid subarry is the lenght of the subarray itself, i.e suppose {2,1,2}
