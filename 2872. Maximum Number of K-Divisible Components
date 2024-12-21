@@ -1,0 +1,42 @@
+// using the brute force appraoch to solve the problem by using simple recusion and try the effect in each step(the trial and error) 
+//whether to include an edge will make  the solution exponential and also the contraints are 3*10**4 there a n**2 complexity solution also will give us T.L.E as it becomes 9*10**8 
+//and which is greater than 10**8 so will not be run in 1 second.
+
+// therefore the approach of traversing each each node only once and greedily checking if the sum till that node is divisible by k and if so make it into a new component(by essentailly 
+calculating the total number of compoenents till there by a counter count(inilise with 0)) is more efficient
+// this appraoch promises to give solution because we are given an inital constrain that the sum of values of all the nodes initially is divisible by k and hence if we even remove 
+// certain part of the total value which is divisible by k that constraint ensures that the remaining part will also be divisible by k.
+// hence we first create an adjacency list for all the nodes and do a dfs traversal and follow the previous strategy 
+
+
+//code c++
+
+
+class Solution {
+    int dfs(vector<vector<int>>& adj,vector<int>&values,int &k,int & count,int curr,int parent=-1){
+        long long sum=values[curr];
+        for(int nbr: adj[curr]){
+            if(nbr!=parent)// till the neighbour is the calling node itself, and this condition ensure that the parent node is not called by the neighbour node ending in infinite loop
+            sum+=dfs(adj,values,k,count,nbr, curr);
+        }
+
+        sum%=k;
+        if(sum==0) count++;// if sum==0 implies that the sum till here is divsible by k and hence can be divide into component and hence we increase the counter(count) value;
+        return sum;
+    }
+
+
+public:
+    int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& values, int k) {
+        vector<vector<int>> adj(n);
+        for(auto edge: edges){
+            adj[edge[0]].push_back(edge[1]);
+            adj[edge[1]].push_back(edge[0]);// adding the adjacent nodes in both the vertices as this is undirected graph, and hence one is adjacent to another
+
+        }
+        int count=0;
+        dfs(adj,values,k,count,0);
+        return count;
+        
+    }
+};
