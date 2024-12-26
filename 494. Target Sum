@@ -1,1 +1,107 @@
+//without memoization
+class Solution {
+public:
 
+    int solve(vector<int>&nums,int target, int idx,int currsum){
+        if(idx==nums.size()){
+            if(currsum==target){
+                return 1;// implying that we found a way to reach the target value
+            }
+            return 0;
+        }
+        int plus=solve(nums,target, idx+1, currsum+nums[idx]);
+        int minus=solve(nums,target,idx+1, currsum-nums[idx]);
+
+        return plus+minus; 
+
+
+
+
+    }
+
+
+
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+        return solve(nums,target,0,0);
+        
+    }
+};
+
+
+
+
+
+//with memoization using map
+
+class Solution {
+public:
+
+    int solve(vector<int>&nums,int target, int idx,int currsum,unordered_map<string,int>&mp){
+        if(idx==nums.size()){
+            if(currsum==target){
+                return 1;// implying that we found a way to reach the target value
+            }
+            return 0;
+        }
+
+        string key=to_string(idx)+"_"+to_string(currsum);
+        if(mp.count(key)) return mp[key];
+
+        int plus=solve(nums,target, idx+1, currsum+nums[idx],mp);
+        int minus=solve(nums,target,idx+1, currsum-nums[idx],mp);
+
+        return mp[key]=plus+minus; 
+
+
+
+
+    }
+
+
+
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+        unordered_map<string,int>mp;
+        return solve(nums,target,0,0,mp);
+        
+    }
+};
+
+
+
+memoization using compensation sum number to avoid negative intergers in the indexing of map;
+
+class Solution {
+public:
+int s;
+
+    int solve(vector<int>&nums,int target, int idx,int currsum,vector<vector<int>>&t){
+        if(idx==nums.size()){
+            if(currsum==target){
+                return 1;// implying that we found a way to reach the target value
+            }
+            return 0;
+        }
+
+        if(t[idx][currsum+s]!=-1) return t[idx][currsum+s];
+
+        int plus=solve(nums,target, idx+1, currsum+nums[idx],t);
+        int minus=solve(nums,target,idx+1, currsum-nums[idx],t);
+
+        return t[idx][currsum+s]=plus+minus; 
+
+
+
+
+    }
+
+
+    int findTargetSumWays(vector<int>& nums, int target) {
+        s= accumulate(begin(nums),end(nums),0);
+        int n=nums.size();
+        vector<vector<int>>t(n+1,vector<int>(2*s+1,-1));
+        return solve(nums,target,0,0,t);
+        
+    }
+};
