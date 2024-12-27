@@ -58,11 +58,13 @@ vector<int>res;
         if(root==NULL){
             return;
         }
-        if(depth==res.size()){
+        if(depth==res.size()){// it means that this is the first time we are visiting this depth,
+//so for now we can initialise the res vector with that element and later when we encounter an elemente greater than the current we will update it
             res.push_back(root->val);
         }
         else{
-            res[depth]=max(res[depth],root->val);
+            res[depth]=max(res[depth],root->val);// it means that we have already visited the depth, which mean there is already an element 
+//at that place, so we need to update it with the maximum element possible till now
         }
 
         dfs(root->left,depth+1);
