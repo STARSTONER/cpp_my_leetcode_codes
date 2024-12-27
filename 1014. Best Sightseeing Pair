@@ -1,0 +1,94 @@
+/* simple brute force solution checking each pair to get the maximum value, got T.L.E 49/55 testcases passes, O(n**2), space complexiety: o(1) */
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int larg=INT_MIN;
+        for(int j=0;j<values.size();j++){
+
+            
+
+            for(int i=0;i<j;i++){
+                if((values[i]+i+values[j]-j)>larg){
+                    larg=values[i]+i+values[j]-j;
+                }
+
+            }
+        }
+        return larg;
+    }
+};
+
+
+
+
+/* better solution: pre calculated the maximum values till an index for all the indices and stores it in a vector, time complexiety: O(n), space complexiety: O(n)  */
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int n=values.size();
+        vector<int> v(n,0);/* to store the values of (values[i]+i) till index i 
+        //in values array*/
+
+        v[0]=values[0]+0;
+
+        for(int i=1;i<n;i++){
+            v[i]=max(values[i]+i,v[i-1]);
+        }
+
+        int res=0;
+        for(int j=1;j<n;j++){
+            int x=values[j]-j;
+            int y=v[j-1]+x;
+
+            res=max(res,y);
+        }
+
+
+return res;
+        
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* appraoch where maximum values till the current element is stored in a single variable rather than using a vector to optimize the space complexiety also*/
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        int maxi=values[0];
+        int maxj=INT_MIN;
+
+        for(int j=1;j<values.size();j++){
+            maxi=max(maxi, values[j-1]+j-1);
+
+            maxj=max(maxj,maxi+values[j]-j);
+
+
+
+        }
+        return maxj;
+        
+    }
+};
