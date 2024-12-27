@@ -55,23 +55,6 @@ return res;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* appraoch where maximum values till the current element is stored in a single variable rather than using a vector to optimize the space complexiety also*/
 
 class Solution {
@@ -89,6 +72,30 @@ public:
 
         }
         return maxj;
+        
+    }
+};
+
+
+
+
+/* approach using a max heap  */
+
+class Solution {
+public:
+    int maxScoreSightseeingPair(vector<int>& values) {
+        priority_queue<int> hp;
+        int res=INT_MIN;
+
+        for(int j=1;j<values.size();j++){
+            hp.push(values[j-1]+j-1);
+
+            res=max(res,hp.top()+values[j]-j);
+
+
+
+        }
+        return res;
         
     }
 };
