@@ -1,0 +1,73 @@
+//solution using recursion + memiosatoin + modular_arithmetic
+
+
+class Solution {
+public:
+int z,o,l,h;
+const int m=1e9+7;
+int solve(int L,vector<int>&t){
+
+    if(L>h){
+        return 0;
+
+    }
+    if(t[L]!=-1){
+        return t[L];
+
+    }
+    bool addone=false;
+
+    if(L>=l ){
+        addone=true;
+
+    }
+    int append_zero=solve(L+z,t);
+    int append_one=solve(L+o,t);
+    return t[L]=(append_zero+append_one+addone)%m;
+}
+    int countGoodStrings(int low, int high, int zero, int one) {
+        l=low;
+        z=zero;
+        o=one;
+        h=high;
+        vector<int>t(h+1,-1);
+
+        return solve(0,t);
+
+        
+    }
+};
+
+
+
+//appraoch-2  using dp and bottom up appraoch
+
+/* the intution behind the solution is very interesting and mathematical to learn, feel so good now
+*/
+class Solution {
+public:
+
+const int m=1e9+7;
+
+    int countGoodStrings(int low, int high, int zero, int one) {
+        vector<int>t(high+1,0);
+        //number of good string of length i;
+
+        t[0]=1;
+        for(int i=1;i<=high;i++){
+            if(i-zero>=0)
+            t[i]=(t[i]%m+t[i-zero]%m)%m;
+
+            if(i-one>=0)
+            t[i]=(t[i]%m+t[i-one]%m)%m;
+
+        }
+
+        int ans=0;
+        for(int l=low;l<=high;l++){
+            ans=(ans%m+t[l]%m)%m;
+        }
+
+return ans;
+    }
+};
