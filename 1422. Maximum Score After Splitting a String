@@ -1,0 +1,94 @@
+/* brute force appraoch where i will be iterating and finding the number of 0 before and the number of onws after evey index i and take the maximum of both of them */
+
+class Solution {
+public:
+    int maxScore(string s) {
+        int res=INT_MIN;
+        for(int i=0;i<=s.length()-2;i++)
+        {
+            int count_z=0;
+            int count_o=0;
+            for(int j=0;j<=i;j++){
+                if(s[j]=='0'){
+                    count_z++;
+                }
+            }
+            for(int j=i+1;j<s.length();j++){
+                if(s[j]=='1'){
+                    count_o++;
+                }
+            }
+            res=max(res,count_z+count_o);
+            
+        }
+        return res;
+        
+    }
+};
+
+
+
+
+/* Appraoch-2: Here we just optimised it one step more where since i am anyway traversing the strin from start to end, i will just keep the count of the 0's as i traverse to the end 
+which help me in not calcuating the number of 0's for every index i, though this solution is also O(n**2) */
+
+
+
+class Solution {
+public:
+    int maxScore(string s) {
+        int res=INT_MIN;
+        int count_0=0;
+        
+        for(int i=0;i<=s.length()-2;i++){
+            int count_1=0;
+            if(s[i]=='0'){
+                count_0++;
+            }
+            for(int j=i+1;j<s.length();j++){
+                if(s[j]=='1'){
+count_1++;
+                }
+                
+            }
+            res=max(res,count_0+count_1);
+
+        }
+        return res;
+
+    }
+};
+
+
+/* Apraoch-3 : with a slight more intution we can see that, suppose if we calculate the number of total ones's at first in O(n) and store it we can compute the solution on O(n)
+, when we parse the the string second time we keep the count of o's and 1's as we go from left to right and we will be having all the information of the number of ones in the left of the 
+index and right of the index as we have the number of ones to the left(counted while parsing) and we have the total number of ones hence we have the total number of ones to the right also
+*/
+
+class Solution {
+public:
+    int maxScore(string s) {
+        
+        int res=INT_MIN;
+        int count_0=0;
+        int tot_count_1=0;
+        int count_1=0;
+        for(int i=0;i<s.length();i++){// or by using the in-built function count(),  tot_count_1= count(begin(s),end(s),'1')
+            if(s[i]=='1'){
+                tot_count_1++;
+            }
+        }
+
+        for(int i=0;i<s.length()-1;i++){
+            if(s[i]=='0'){
+                count_0++;
+            }
+            else
+            count_1++;
+            res=max(res,count_0+tot_count_1-count_1);
+        }
+
+        return res;
+    }
+};
+
