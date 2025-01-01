@@ -75,3 +75,42 @@ public:
         return t[last_day];
     }
 };
+
+
+
+
+/* appraoch 4: The One Pass (may be we can conclude the appraoch 2 and 3 as same and just follow-up optimisations; 
+but this apraoch is the most intutive and easiest appraoch to solve we get the equation Zl+Or=Score from equation which we need to maximise where Zl is the total zeroes to the left of the index and similarly
+the Or and we also knwo that Ototal=Ol+Or whihc upon replacing in the equation prior we get Zl+Ototal-Ol and transposing the terms we get (Zl-Ol)+Ototal;
+so we can just try to maximise the Zl-Ol (which we get just by pasing through the string only once ) ,we keep on counting the number of ones and zeroes as we start moving
+to the left of the string and then just calculate the maximum value we can get of Zl-Ol atlast we add the total numebr of ones to the optimum Zl-Ol value
+which we get while parsing the string itself
+*/
+
+
+class Solution {
+public:
+    int maxScore(string s) {
+        int count_ones=0;
+        int count_zeroes=0;
+        int score=INT_MIN;
+
+        for(int i=0;i<s.length()-1;i++){
+            
+            if(s[i]=='0')
+            count_zeroes++;
+            else
+            count_ones++;
+
+            score=max(score,count_zeroes-count_ones);
+        }
+        if(s[s.length()-1]=='1'){
+// since we are not parsing till the end of the strign to avoid getting the empty string , hence we check if there 
+//are any ones remaing after the end of the loop and add them to the ones count;
+            count_ones++;
+        }
+
+        return score+count_ones;
+    }
+};
+
