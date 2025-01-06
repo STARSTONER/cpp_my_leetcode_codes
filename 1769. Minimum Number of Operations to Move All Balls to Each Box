@@ -1,0 +1,56 @@
+//appraoch 1:bruteforce O(n**2) time complexiety but accepted
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        
+        int n=boxes.length();
+        vector<int>res(n,0);
+        for(int i=0;i<boxes.length();i++){
+            int count=0;
+            for(int j=0;j<boxes.length();j++){
+                if(boxes[j]=='1'&&j!=i){
+                    int ans=abs(j-i);
+                    count+=ans;
+                }
+            }
+            res[i]=count;
+        }
+        return res;
+        
+    }
+};
+
+
+
+
+//appraoch:2 optimised to O(n) time complexiety effectively
+class Solution {
+public:
+    vector<int> minOperations(string boxes) {
+        int n=boxes.length();
+
+        vector<int>answer(n,0);
+        int cumvalue=0;
+        int cumvalueSum=0;
+
+        //find moves for all left balls to index i
+
+        for(int i=0;i<n;i++){
+            answer[i]=cumvalueSum;
+            cumvalue+=boxes[i]=='0'?0:1;//because boxes is string
+            cumvalueSum+=cumvalue;
+
+        }
+        cumvalue=0;
+        cumvalueSum=0;
+
+
+        for(int i=n-1;i>=0;i--){
+            answer[i]+=cumvalueSum;
+            cumvalue+=boxes[i]=='0'?0:1;
+            cumvalueSum+=cumvalue;
+        }
+        
+        return answer;
+    }
+};
