@@ -1,1 +1,172 @@
+//appraoch1: using bruteforce suign find() and rfind() function
+class Solution {
+public:
+    bool isPrefixAndSuffix(string str1,string str2){
+        int n,m;
+        n=str1.length();
+         m=str2.length();
+        if(str1.length()>str2.length())
+        {
+            return false;
+        }
 
+        if(str2.find(str1)==0&&str2.rfind(str1)==(m-n)){
+            return true;
+        }
+        return false;
+
+    }
+
+
+
+
+int count=0;
+    int countPrefixSuffixPairs(vector<string>& words) {
+        int n=words.size();
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(isPrefixAndSuffix(words[i],words[j])){
+                    count++;
+                }
+                
+            }
+
+        }
+        return count;
+        
+    }
+};
+
+
+//aproach 2: bruteforce using substr() function;
+class Solution {
+public:
+    bool isPrefixAndSuffix(string str1,string str2){
+        int n,m;
+        n=str1.length();
+         m=str2.length();
+        if(str1.length()>str2.length())
+        {
+            return false;
+        }
+
+        if(str2.substr(0,n)==str1&& str2.substr(m-n,n)==str1) {
+            return true;
+        }
+        return false;
+
+    }
+
+
+
+
+int count=0;
+    int countPrefixSuffixPairs(vector<string>& words) {
+        int n=words.size();
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+                if(isPrefixAndSuffix(words[i],words[j])){
+                    count++;
+                }
+                
+            }
+
+        }
+        return count;
+        
+    }
+};
+
+
+
+
+
+//appraoch 3: using trie //approx: O(n**2*l) where l=lenght of word for each iteration;
+//more ideal for using trie becuase it is a prefix and sufic problem
+struct trieNode{
+    trieNode*children[26];
+    bool isEndofWord;
+};
+
+trieNode*getNode(){
+    trieNode* newNode=new trieNode();
+    newNode->isEndofWord=false;
+    for(int i=0;i<26;i++)
+    newNode->children[i]=NULL;
+
+return newNode;
+}
+
+class Trie{
+    public:
+    trieNode*root;
+
+    Trie() {
+        root=getNode();
+    }
+
+    void insert(string words) {
+        trieNode*pcrawl=root;
+        for(int i=0;i<words.length();i++){
+            int idx=words[i]-'a';
+            if(pcrawl->children[idx]==NULL){
+                pcrawl->children[idx]=getNode();
+            }
+            pcrawl=pcrawl->children[idx];
+
+        }
+        pcrawl->isEndofWord=true;
+    }
+
+    bool searchPrefix(string prefix) {
+        trieNode*pcrawl=root;
+
+        for(int i=0;i<prefix.length();i++){
+            int idx= prefix[i]-'a';
+            if(pcrawl->children[idx]==NULL){
+                return false;
+            }
+            pcrawl=pcrawl->children[idx];
+        }
+        return true;
+
+
+    }
+};
+
+
+class Solution {
+public:
+    int countPrefixSuffixPairs(vector<string>& words) {
+        int n=words.size();
+        int count=0;
+        for(int j=0;j<n;j++){
+            Trie prefixTrie;
+            Trie suffixTrie;
+
+            prefixTrie.insert(words[j]);
+            string reversed=words[j];
+            reverse(begin(reversed),end(reversed));
+            suffixTrie.insert(reversed);
+
+            for(int i=0;i<j;i++){
+                if(words[i].length()>words[j].length()) {
+                    continue;
+                }
+                string rev=words[i];
+                reverse(begin(rev),end(rev));
+
+                if(prefixTrie.searchPrefix(words[i])==true&&suffixTrie.searchPrefix(rev)==true) {
+                    count++;
+
+
+
+                }
+
+            }
+
+        }
+        return count;
+        
+    }
+};
