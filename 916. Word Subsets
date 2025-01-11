@@ -1,1 +1,49 @@
+//
 
+class Solution {
+public:
+    vector<string>res;
+    bool subset(vector<int>&temp,vector<int>&freq2){
+        for(int i=0;i<26;i++){
+            if(freq2[i]>temp[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
+    vector<string> wordSubsets(vector<string>& words1, vector<string>& words2) {
+        vector<int>freq2(26,0);
+        for(string & words: words2){
+            
+            
+            vector<int>cemp(26,0);
+            for(char &ch:words){
+                cemp[ch-'a']++;
+
+                freq2[ch-'a']=max(freq2[ch-'a'],cemp[ch-'a']);
+
+
+            }
+        }
+vector<int>freq1(26,0);
+        for(string & words:words1){
+            vector<int>temp(26,0);
+            for(char &ch:words){
+                temp[ch-'a']++;
+
+               
+
+            }
+            if(subset(temp,freq2)==true){
+            res.push_back(words);
+        }
+
+        }
+        
+
+        return res;
+    }
+};
