@@ -1,0 +1,51 @@
+//using multi source bfs
+
+
+class Solution {
+public:
+typedef pair<int,int> p;
+vector<vector<int>> d{{0,1},{0,-1},{-1,0},{1,0}};
+    vector<vector<int>> highestPeak(vector<vector<int>>& isWater) {
+        
+        int n=isWater.size();
+        int m=isWater[0].size();
+
+vector<vector<int>>h(n,vector<int>(m,-1));
+queue<p> q;
+
+for(int i=0;i<n;i++){
+    for(int j=0;j<m;j++){
+        if(isWater[i][j]==1){
+            h[i][j]=0;
+            q.push({i,j});
+
+
+        }
+    }
+}
+
+while(!q.empty()){
+    int a=q.size();
+    while(a--){
+        p cur=q.front();
+        q.pop();
+        int i=cur.first;
+        int j=cur.second;
+
+        for(auto & dir :d){
+            int i_=i+dir[0];
+            int j_=j+dir[1];
+
+            if(i_>=0 && i_<n && j_>=0 && j_<m && h[i_][j_]==-1){
+                h[i_][j_]=h[i][j]+1;
+                q.push({i_,j_});
+            }
+
+        }
+    }
+}
+return h;
+
+
+    }
+};
