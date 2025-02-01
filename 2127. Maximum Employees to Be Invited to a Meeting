@@ -1,0 +1,84 @@
+class Solution {
+public:
+    int bfs(int start, unordered_map<int, vector<int>>&adj, vector<bool>&visited)
+    {
+        queue<pair<int,int>> q;
+        q.push({start, 0});
+        int maxdistance=0;
+
+        while(!q.empty()){
+
+            auto[curnode, dist]=q.front();
+            q.pop();
+
+            for(auto &ngbr:adj[curnode]){
+                if(!visited[ngbr]){
+                    visited[ngbr]=true;
+                    q.push({ngbr,dist+1});
+                    maxdistance=max(maxdistance, dist+1);
+
+                }
+            }
+
+        }
+        return maxdistance;
+    }
+
+     
+
+
+
+    int maximumInvitations(vector<int>& favorite) {
+        int n=favorite.size();
+        unordered_map<int,vector<int>>adj;
+
+        for(int i=0;i<n;i++){
+            int u=i;
+            int v=favorite[i];
+
+            adj[v].push_back(u);
+
+        }
+
+        int longcycle=0;
+        int dualcycle=0;//cycle lenght of 2;
+
+
+        vector<bool>visited(n,false);
+        for(int i=0;i<n;i++){
+            if(!visited[i]){
+                unordered_map<int,int> m;
+                int curnode=i;
+                int curnodecount=0;
+
+                while(!visited[curnode]){
+                    visited[curnode]=true;
+                    m[curnode]=curnodecount;
+
+                    int nextnode=favorite[curnode];
+                    curnodecount++;
+
+                    if(m.count(nextnode)){
+                        int cyclelength= curnodecount-m[nextnode];
+                        longcycle=max(longcycle, cyclelength);
+
+                        if(cyclelength==2){
+                            vector<bool>visitednodes(n, false);
+                            visitednodes[curnode]=true;
+                            visitednodes[nextnode]=true;
+                           dualcycle+=2+ bfs(curnode, adj, visitednodes)+bfs(nextnode, adj, visitednodes);
+                        }
+                        break;
+                    }
+                    curnode=nextnode;
+
+                }
+            }
+
+        }
+
+        return max(dualcycle,longcycle );
+
+        
+    }
+};
