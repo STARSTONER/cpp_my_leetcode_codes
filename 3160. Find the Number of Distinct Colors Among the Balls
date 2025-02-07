@@ -1,0 +1,83 @@
+//apprach 1 : using array isntead of map, will get M.L.E due to initailisaint and takinf 1e+9 values
+
+class Solution {
+public:
+    vector<int> queryResults(int limit, vector<vector<int>>& queries) {
+        int n=queries.size();
+        vector<int>res(n);
+
+        unordered_map<int,int>colorfreq;
+        vector<int>ballarr(limit+1,-1);
+
+        for(int i=0;i<n;i++){
+            int ball=queries[i][0];
+            int color=queries[i][1];
+
+            if(ballarr[ball]!=-1){
+                int prevcolor=ballarr[ball];
+                colorfreq[prevcolor]--;
+
+                if(colorfreq[prevcolor]==0){
+                    colorfreq.erase(prevcolor);
+                }
+            }
+
+
+            ballarr[ball]=color;
+            colorfreq[color]++;
+
+            res[i]=colorfreq.size();
+
+        }
+
+
+return res;
+        
+    }
+};
+
+
+
+
+
+
+
+
+
+//appraoch 2 :using both maps(2 maps) instead of one array and one map, passes all the tests and accepted
+
+class Solution {
+public:
+    vector<int> queryResults(int limit, vector<vector<int>>& queries) {
+        int n=queries.size();
+        vector<int>res(n);
+
+        unordered_map<int,int>colorfreq;
+        unordered_map<int,int>ballmp;
+
+        for(int i=0;i<n;i++){
+            int ball=queries[i][0];
+            int color=queries[i][1];
+
+            if(ballmp.count(ball)){
+                int prevcolor=ballmp[ball];
+                colorfreq[prevcolor]--;
+
+                if(colorfreq[prevcolor]==0){
+                    colorfreq.erase(prevcolor);
+                }
+            }
+
+
+            ballmp[ball]=color;
+            colorfreq[color]++;
+
+            res[i]=colorfreq.size();
+
+        }
+
+
+return res;
+        
+    }
+};
