@@ -1,0 +1,66 @@
+//appraoch 1: 2 pass, O(n+n) , by implicit usage of prefix sum;
+class Solution {
+public:
+    int maxAbsoluteSum(vector<int>& nums) {
+        int n=nums.size();
+
+        int currSum=nums[0];
+        int maxSum=nums[0];
+
+//kadane'e algorith for finding max arrays sum;
+        for(int i=1;i<n;i++)
+        {
+            currSum=max(nums[i],currSum+nums[i]);
+            maxSum=max(maxSum,currSum);
+        }
+
+
+        int minSum=nums[0];
+        currSum=nums[0];
+        for(int i=1;i<n;i++)
+        {
+            currSum=min(nums[i],currSum+nums[i]);
+            minSum=min(minSum,currSum);
+
+        }
+
+return max(maxSum, abs(minSum));
+    }
+};
+
+
+
+/*appraoch 2: 1 pass, compeltely same but just using the same for loop for both 
+the passes by using extra variables for sum
+
+/*
+
+class Solution {
+public:
+    int maxAbsoluteSum(vector<int>& nums) 
+    {
+        int n=nums.size();
+
+        int maxSum=nums[0];
+        int minSum=nums[0];
+
+        int currSumMax=nums[0];
+        int currSumMin=nums[0];
+
+        for(int i=1;i<n;i++)
+        {
+            currSumMax=max(nums[i],currSumMax+nums[i]);
+            maxSum=max(maxSum,currSumMax);
+
+            currSumMin=min(nums[i],currSumMin+nums[i]);
+            minSum=min(minSum,currSumMin);
+
+        }
+
+        return max(maxSum,abs(minSum));
+        
+
+        
+    }
+};
+
