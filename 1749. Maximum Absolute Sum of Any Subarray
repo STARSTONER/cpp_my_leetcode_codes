@@ -1,4 +1,4 @@
-//appraoch 1: 2 pass, O(n+n) , by implicit usage of prefix sum;
+//appraoch 1: 2 pass, O(n+n) ,using Khadane's algorithm and by implicit usage of prefix sum;
 class Solution {
 public:
     int maxAbsoluteSum(vector<int>& nums) {
