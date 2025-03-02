@@ -1,4 +1,5 @@
 //the solution to this problem is similar to the seconds part or the merging part of the merge sort alogithm, 
+//except for it is just a 2d array rest is the complete same, have two pointer with two arrays andd go on
 
 class Solution {
 public:
