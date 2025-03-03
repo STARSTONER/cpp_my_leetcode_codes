@@ -1,0 +1,135 @@
+//approach 1:
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        
+int n=nums.size();
+
+
+        vector<int>less;
+        vector<int>equal;
+        vector<int>great;
+
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]<pivot)
+            {
+                less.push_back(nums[i]);
+            }
+            else if(nums[i]==pivot)
+            {
+                equal.push_back(nums[i]);
+
+            }
+            else
+            {
+                great.push_back(nums[i]);
+            }
+
+
+        }
+        for(int &num:equal)
+        {
+            less.push_back(num);
+        }
+        for(int &num:great)
+        {
+            less.push_back(num);
+        }
+
+        return less;
+    }
+};
+
+
+
+//approach 2:
+
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        
+int n=nums.size();
+vector<int>res(n);
+
+        int less=0;
+        int equal=0;
+
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]<pivot)
+            {
+                less++;
+            }
+
+            else if( nums[i]==pivot)
+            {
+                equal++;
+            }
+
+
+        }
+        
+int i=0;
+int j=less;
+int k=less+equal;
+
+        for(int &num:nums)
+        {
+            if(num<pivot)
+            {
+                res[i++]=num;
+            }
+           else if(num==pivot)
+           {
+            res[j++]=num;
+
+           }
+           else
+           {
+            res[k++]=num;
+           }
+        }
+
+        return res;
+    }
+};
+
+
+
+//approach 3:
+class Solution {
+public:
+    vector<int> pivotArray(vector<int>& nums, int pivot) {
+        int n=nums.size();
+
+        vector<int>res(n);
+
+        int i=0;
+        int j=n-1;
+
+        int ii=0;
+        int jj=n-1;
+
+        while(i<n&&j>=0)
+        {
+            if(nums[i]<pivot)
+            {
+                res[ii++]=nums[i];
+            }
+            if(nums[j]>pivot)
+            {
+                res[jj--]=nums[j];
+            }
+
+            i++,j--;
+        }
+        while(ii<=jj)
+        {
+            res[ii++]=pivot;
+        }
+        return res;
+    }
+};
+
+
